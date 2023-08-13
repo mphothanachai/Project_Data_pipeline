@@ -34,6 +34,7 @@ Data pipeline with (postgresql to googlecloud to snowflek) base on airfow
 ![image](https://github.com/mphothanachai/Workshop-data-engineer-/assets/137395742/30eb8765-30bb-4cfc-b89c-18af0a89970b)
 
 5. If u connect success (The image will appear below)
+
 ![image](https://github.com/mphothanachai/Workshop-data-engineer-/assets/137395742/25d8fd3d-393f-42da-9189-9773b24c77cc)
 
 ## pgAdmin (postgresql)
@@ -61,8 +62,11 @@ You don't need to use command to create tables and insert row by row (In some ca
 >Choose import => file name (location file on local) =>format csv => In options => Choose enable Header
 
 ![image](https://github.com/mphothanachai/Workshop-data-engineer-/assets/137395742/9aa572c6-fd3f-429d-9d58-66027c81c077)
+
 5.  **_Aah!_** I have some problem .I got error of different "datestyle"
+
 ![image](https://github.com/mphothanachai/Workshop-data-engineer-/assets/137395742/50152751-ed92-4e84-9e36-c370f57dd740)
+
 6. Let me Check .CSV (This csv have different of format date)
 
 ![image](https://github.com/mphothanachai/Workshop-data-engineer-/assets/137395742/22cc17cd-fa9d-455d-b97f-bbe33be431b6)
