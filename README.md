@@ -29,7 +29,7 @@ Let delve into the details of the ETL pipeline .
 
 ![image](https://github.com/mphothanachai/Project_Data_pipeline/assets/137395742/9bd5d903-6b7b-4346-b9b7-f02b98fa24cd)
 
-## Postgre Database (Prepare)
+## 4.Postgre Database (Prepare)
 
 1. First of all prepare  **Database** with gcp 
 > Search SQL server (in gcp) 
@@ -65,7 +65,7 @@ Let delve into the details of the ETL pipeline .
 
 ![image](https://github.com/mphothanachai/Workshop-data-engineer-/assets/137395742/25d8fd3d-393f-42da-9189-9773b24c77cc)
 
-## pgAdmin (postgresql)
+## 5.pgAdmin (postgresql)
 1. Before we can use DB we just create DB from pgAdmin before
 ![image](https://github.com/mphothanachai/Workshop-data-engineer-/assets/137395742/2dd64fa0-e813-4197-a376-2d9088331268)
 2. Choose name and save it (DB name)
