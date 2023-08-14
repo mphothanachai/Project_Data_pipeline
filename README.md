@@ -1,6 +1,20 @@
 # Project_Data_pipeline
 Data pipeline with (postgresql to googlecloud to snowflek) base on airfow
 
+## 1. Introduction
+In the current data is  importance for businesses and dicide something, creating a Data Pipeline to use data is extremely important. Managing and presenting data in an easily understandable Being a critical factor in achieving business success, as a data engineer, we undertake this project to study the steps creating a Data Pipeline. This pipeline connects the database using PostgreSQL with Google Cloud storage to backup data storage and management. and then, we transfer this data to Snowflake, a Data Warehouse, which is linked with the potential to analyze and utilize data effectively.
+
+![image](https://github.com/mphothanachai/Project_Data_pipeline/assets/137395742/48beab67-eb61-4439-91ae-9f83d12f481a)
+
+## 2.Objective
+Create a Data Pipeline to analyze and manage data for users of a Movie Streaming service in various formats. To enhance understanding  and Effective management , find some opportunities for expanding promotional spaces or organizing promotions.
+
+ 1. Analysis and forecasting of behavior user.
+   (For example, the average duration that users remain subscribed to the same package.)
+ 2. Development or improvement for decision.
+ (Develop dashboards and summary reports that are essential for executives, help in decision with sales figures, package selection, and other activities.)
+ ![image](https://github.com/mphothanachai/Project_Data_pipeline/assets/137395742/6c9cec96-68af-4346-95c7-aad194a3312a)
+
 ## Postgre Database (Prepare)
 
 1. First of all prepare  **Database** with gcp 
