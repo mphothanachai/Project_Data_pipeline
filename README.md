@@ -7,7 +7,7 @@ In the current data is  importance for businesses and dicide something, creating
 ![image](https://github.com/mphothanachai/Project_Data_pipeline/assets/137395742/48beab67-eb61-4439-91ae-9f83d12f481a)
 
 ## 2.Objective
-Create a Data Pipeline to analyze and manage data for users of a Movie Streaming service in various formats. To enhance understanding  and Effective management , find some opportunities for expanding promotional spaces or organizing promotions.
+**Create a Data Pipeline for Data analyst and Data Science** to analyze and manage data for users of a Movie Streaming service in various formats. To enhance understanding  and Effective management , find some opportunities for expanding promotional spaces or organizing promotions.
 
  1. Analysis and forecasting of behavior user.
    (For example, the average duration that users remain subscribed to the same package.)
