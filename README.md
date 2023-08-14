@@ -29,7 +29,13 @@ Let delve into the details of the ETL pipeline .
 
 ![image](https://github.com/mphothanachai/Project_Data_pipeline/assets/137395742/9bd5d903-6b7b-4346-b9b7-f02b98fa24cd)
 
-## 4.Postgre Database (Prepare)
+## 4. Prepare (before use gcp,postgreSQL and snowflek)
+1.	Account [Google cloud platfrom](https://console.cloud.google.com/) (gcp) if you have it you can use service on gcp (composer , google cloud and sql server).
+2.	Account [snowflek](https://app.snowflake.com/) (Data warehouse).
+3.	  Download [pgAdmin](https://www.pgadmin.org/) tool for manage postgreSQL.
+4.	Account [github](https://github.com/) use to push code to git.
+
+## 5.Postgre Database (Prepare)
 
 1. First of all prepare  **Database** with gcp 
 > Search SQL server (in gcp) 
@@ -65,7 +71,7 @@ Let delve into the details of the ETL pipeline .
 
 ![image](https://github.com/mphothanachai/Workshop-data-engineer-/assets/137395742/25d8fd3d-393f-42da-9189-9773b24c77cc)
 
-## 5.pgAdmin (postgresql)
+## 6.pgAdmin (postgresql)
 1. Before we can use DB we just create DB from pgAdmin before
 ![image](https://github.com/mphothanachai/Workshop-data-engineer-/assets/137395742/2dd64fa0-e813-4197-a376-2d9088331268)
 2. Choose name and save it (DB name)
@@ -128,3 +134,10 @@ df.to_csv("Clean_User.csv", index=False)
 11. Let try query this table
 ![image](https://github.com/mphothanachai/Workshop-data-engineer-/assets/137395742/cf9d52f3-86f4-407d-a5f9-64a37a546203)
 We have prepared the database for the data pipeline :)
+
+## 7. Google composer
+We will use Google Composer with Airflow to create a DAG for writing and managing tasks in the Airflow system using Python code.
+ 1. Go to the [Google Cloud website](https://cloud.google.com/gcp?utm_source=google&utm_medium=cpc&utm_campaign=na-CA-all-en-dr-bkws-all-all-trial-e-dr-1605212&utm_content=text-ad-none-any-DEV_c-CRE_665735450633-ADGP_Hybrid%20%7C%20BKWS%20-%20EXA%20%7C%20Txt_Google%20Cloud-KWID_43700077224548586-kwd-6458750523&utm_term=KW_google%20cloud-ST_google%20cloud&gclid=Cj0KCQjw2qKmBhCfARIsAFy8buJTDdaAzub_a5_LvTWYEFgQAdcgtYCSYz1NRtQip1_QFm1UJRn_dnMaAiITEALw_wcB&gclsrc=aw.ds&hl=th).
+ 2. Find Google Composer in Google Cloud to create a cluster.
+
+ ![image](https://github.com/mphothanachai/Workshop-data-engineer-/assets/137395742/4ccbd050-abd5-48d6-a1bd-396b2c8c0bf8)
