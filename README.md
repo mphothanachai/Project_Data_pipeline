@@ -16,6 +16,19 @@ In the current data is  importance for businesses and dicide something, creating
 
  ![image](https://github.com/mphothanachai/Project_Data_pipeline/assets/137395742/6c9cec96-68af-4346-95c7-aad194a3312a)
 
+## 3. Design
+I will use **ETL** method ([Credit picture ](https://www.informatica.com/content/dam/informatica-com/en/images/misc/etl-process-explained-diagram.png))
+
+![image](https://github.com/mphothanachai/Project_Data_pipeline/assets/137395742/57cdd074-0b1d-4eb5-af2a-12f937b63495)
+
+Let design **ETL pipeline**
+
+![image](https://github.com/mphothanachai/Project_Data_pipeline/assets/137395742/9c43af59-097b-4078-af26-16239c118ce9)
+
+Let delve into the details of the ETL pipeline .
+
+![image](https://github.com/mphothanachai/Project_Data_pipeline/assets/137395742/9bd5d903-6b7b-4346-b9b7-f02b98fa24cd)
+
 ## Postgre Database (Prepare)
 
 1. First of all prepare  **Database** with gcp 
