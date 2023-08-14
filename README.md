@@ -13,6 +13,7 @@ Create a Data Pipeline to analyze and manage data for users of a Movie Streaming
    (For example, the average duration that users remain subscribed to the same package.)
  2. Development or improvement for decision.
  (Develop dashboards and summary reports that are essential for executives, help in decision with sales figures, package selection, and other activities.)
+
  ![image](https://github.com/mphothanachai/Project_Data_pipeline/assets/137395742/6c9cec96-68af-4346-95c7-aad194a3312a)
 
 ## Postgre Database (Prepare)
