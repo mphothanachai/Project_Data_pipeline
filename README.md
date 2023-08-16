@@ -222,7 +222,7 @@ df = df.rename(columns={'Subscription_period': 'Subscription_period_(Month)'})
 df["Plan_Duration"] = df["Plan_Duration"].apply(lambda  x: x.replace(" Month", "")).astype(int)
 df = df.rename(columns={'Plan_Duration': 'Plan_Duration_(Month)'})
 ```
-**Use function map to find str in dict{} and change after that multiply all column ,that is an integer.Convert to csv **
+**Use function map to find str in dict{} and change after that multiply all column ,that is an integer.Convert to csv**
 ```
 df['THB_Bath'] = df['Subscription_Type'].map({'Basic': 169, 'Standard': 349, 'Premium': 419})
 df["Revenue(Bath)"] = df["Plan_Duration_(Month)"] * df["Subscription_period_(Month)"] * df["THB_Bath"]
