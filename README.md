@@ -277,3 +277,119 @@ t1 >> t2 >> t3 >> t4
 ```
 
 19. Don't be surprised that the tasks end here. In reality, you need to proceed to work in Snowflake to pull data from GCP according to the schedule. :3
+
+## 8. Snowflake (prepare )
+We prepare before running according to the schedule.U can learn with [snowflake](https://docs.snowflake.com/en/user-guide/data-load-gcs-config)
+I will teach you how to create a database and schema before setup, it's very easy.
+
+![image](https://github.com/mphothanachai/Workshop-data-engineer/assets/137395742/aaa5edef-b034-4b66-b30d-8f1a53b83400)
+
+![image](https://github.com/mphothanachai/Workshop-data-engineer/assets/137395742/dba30fad-9b6f-46e0-a2d0-fb04631d908b)
+
+
+### Step 1: Create a Cloud Storage Integration in Snowflake
+This integration named "my_integration" delegates authentication for GCS buckets and paths specified in STORAGE_ALLOWED_LOCATIONS to Snowflake-generated service account. It enables access to the specified GCS buckets and paths through external stages.
+```
+CREATE STORAGE INTEGRATION new_gcp #name of ingration
+  TYPE = EXTERNAL_STAGE
+  STORAGE_PROVIDER = 'GCS' #name provider
+  ENABLED = TRUE
+  STORAGE_ALLOWED_LOCATIONS = ('gcs://your location of bucket/data/')
+```
+### Step 2: Retrieve the Cloud Storage Service Account for your Snowflake Account
+Execute the [DESCRIBE INTEGRATION](https://docs.snowflake.com/en/sql-reference/sql/desc-integration.html) command to retrieve the ID for the Cloud Storage service account that was created automatically for your Snowflake account.
+```
+DESC STORAGE INTEGRATION new_gcp; #new_gcp is ingration that u create
+```
+
+![image](https://github.com/mphothanachai/Workshop-data-engineer/assets/137395742/94a2598b-edad-4e10-96b1-64dd20eb0155)
+
+### Step 3: Grant the Service Account Permissions to Access Bucket Objects
+#### Creating a Custom IAM Role
+
+Create a custom role that has the permissions required to access the bucket and get objects.
+
+1.  Log into the Google Cloud Platform Console as a project editor.
+2.  From the home dashboard, choose  IAM & admin  »  Roles.
+3.  Click  Create Role.
+4.  Enter a name, and description for the custom role.
+5.  Click  Add Permissions.
+6.  Filter the list of permissions, and add the following from the list:
+![image](https://github.com/mphothanachai/Workshop-data-engineer/assets/137395742/42346514-0539-47ca-989e-8e818e59fa7d)
+7. Click  Create.
+#### Assigning the Custom Role to the Cloud Storage Service Account
+
+1.  Log into the Google Cloud Platform Console as a project editor.
+2.  From the home dashboard, choose  Cloud Storage  »  Browser:
+    
+    ![Bucket List in Google Cloud Platform Console](https://docs.snowflake.com/en/_images/gcs-bucket-list.png)
+ 3. Select a bucket to configure for access.
+ 4. Click  SHOW INFO PANEL  in the upper-right corner. The information panel for the bucket slides out.
+5. Click the  ADD PRINCIPAL  button.
+6. In the  New principals  field, search for the service account name from the DESCRIBE INTEGRATION output .
+    
+![Bucket Information Panel in Google Cloud Platform Console](https://docs.snowflake.com/en/_images/gcs-bucket-list-info-panel.png)
+
+7. From the  Select a role  dropdown, select  Custom  »  `<role>`, where  `<role>`  is     the custom Cloud Storage role you created in  Creating a Custom IAM Role.
+    
+8. Click the  Save  button. The service account name is added to the  Storage Object Viewer  role dropdown in the information panel.
+    
+![Storage Object Viewer role list in Google Cloud Platform Console](https://docs.snowflake.com/en/_images/gcs-bucket-list-role-list.png)
+### Step 4 : Create stage
+To create an external stage in Snowflake that connects to a Google Cloud Storage (GCS) bucket, you can use the `CREATE STAGE` command.
+
+```
+create STAGE IDENTIFIER('"DATA_WAREHOUSE(DB)"."USERDATA(Schema)"."NEW_GCP_STAGE(name of stage)"') URL = 'gcs://Location bucket/data/' STORAGE_INTEGRATION = name of ingration
+DIRECTORY = ( ENABLE = true )
+```
+if u success wil have folder stage
+
+![image](https://github.com/mphothanachai/Workshop-data-engineer/assets/137395742/fc8780ef-53a6-4010-858b-20d8ff972fb1)
+
+### Step 5 : Create task to use schedual (Last step)
+We will create a task to run an SQL command (COPY INTO) according to the schedule.
+> Before we create stage we should create table for prapare data from gcp
+```
+CREATE OR REPLACE TABLE User_Subscriptions (
+  User_ID INT,
+  Subscription_Type STRING,
+  Join_Date DATE,
+  Last_Payment_Date DATE,
+  Country STRING,
+  Age INT,
+  Gender STRING,
+  Device STRING,
+  Plan_Duration_Month INT,
+  Subscription_period_Month INT,
+  THB_Bath INT,
+  Revenue_Bath INT
+);
+```
+And then we should create task
+**schema (u have stage) => + => task**
+
+![image](https://github.com/mphothanachai/Workshop-data-engineer/assets/137395742/915294b5-8533-4875-863a-f6631add9299)
+
+```
+create or replace task DATA_WAREHOUSE.USERDATA.RUN_EVERYLUNCH #name task
+	warehouse=COMPUTE_WH #name warehouse process
+	schedule='USING CRON 0 12 * * * UTC'#cron to do with schedual this cron mean run every 12:00am
+	as #u can use an
+#location table
+COPY  INTO  "DATA_WAREHOUSE"."USERDATA"."USER_SUBSCRIPTIONS" #location 
+#form is destination stage
+FROM  '@"DATA_WAREHOUSE"."USERDATA"."NEW_GCP_STAGE"'
+	PATTERN='.*.' #all file in stage
+	FILE_FORMAT  = (
+	TYPE=CSV,
+	SKIP_HEADER=1,
+	FIELD_DELIMITER=',',
+	TRIM_SPACE=FALSE,
+	FIELD_OPTIONALLY_ENCLOSED_BY=NONE,
+	DATE_FORMAT=AUTO,
+	TIME_FORMAT=AUTO,
+	TIMESTAMP_FORMAT=AUTO
+)
+ON_ERROR=ABORT_STATEMENT;
+```
+Thank you for reading my project :3
