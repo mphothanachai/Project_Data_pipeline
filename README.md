@@ -235,3 +235,38 @@ with DAG(
 	schedule_interval=" 0 0 * * * ", #work on midnight(with cron)
 	tags=["project"]
 ) as dag:
+15. Create tasks to use functions and assign tasks. Use PythonOperator for use Python code and call the function (extract_postgresql). Apply kwargs (Keyword Argument) to provide the value for the raw_output_path variable t2 is same thing.
+
+```
+t1 = PythonOperator(
+	task_id="extract_postgresql",
+	python_callable=extract_DB,
+	op_kwargs={"raw_path": raw_output_path},
+	)
+t2 = PythonOperator(
+	task_id="clean_data",
+	python_callable=clean_data,
+	op_kwargs={
+		"raw_path": raw_output_path,
+		"clean_path": clean_output_path,
+	},
+)
+```
+16. Do you remember that when creating a Composer instance, we receive a Cloud Storage bucket? We will use this bucket to connect to Snowflake. First, in task t3, the files from the "clean_data" folder will be copied to the designated folder for Snowflake integration.
+
+17. In task t4, the files with the previous day's date in the Snowflake folder, usually named as "clean_data_2023-8-16," will be deleted. The date will keep changing, and we're removing the files from the previous day to ensure that only the latest files remain for easier data retrieval.
+```
+t3 = BashOperator(
+	task_id="copy_to_stage_snowflake",
+	bash_command="gsutil cp gs://datalakelake/clean_data/clean_data_{{ ds }}.csv gs://us-south1-airflow-c53bbfb7-bucket/data/",
+)
+t4 = BashOperator(
+	task_id="romove_lastdate_file",
+	bash_command='gsutil rm gs://us-south1-airflow-c53bbfb7-bucket/data/clean_data_$(date -d "yesterday" +%Y-%m-%d).csv',
+)
+```
+18. Setting up Dependencies for Determine the order in which tasks should be executed.
+```
+t1 >> t2 >> t3 >> t4
+```
+19. Don't be surprised that the tasks end here. In reality, you need to proceed to work in Snowflake to pull data from GCP according to the schedule. :3
