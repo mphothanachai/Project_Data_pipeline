@@ -275,6 +275,7 @@ t4 = BashOperator(
 ```
 t1 >> t2 >> t3 >> t4
 ```
+![image](https://github.com/mphothanachai/Workshop-data-engineer/assets/137395742/86f57b66-d266-432c-8fb5-48db589e5cfa)
 
 19. Don't be surprised that the tasks end here. In reality, you need to proceed to work in Snowflake to pull data from GCP according to the schedule. :3
 
