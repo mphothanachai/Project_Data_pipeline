@@ -141,3 +141,5 @@ We will use Google Composer with Airflow to create a DAG for writing and managin
  2. Find Google Composer in Google Cloud to create a cluster.
 
  ![image](https://github.com/mphothanachai/Workshop-data-engineer-/assets/137395742/4ccbd050-abd5-48d6-a1bd-396b2c8c0bf8)
+
+  3. Wait for 15-30 minutes to create the `environment`. ( When you create a Composer environment, you will also get Google Cloud (data lake) included, so you don't need to create an extra one. )
