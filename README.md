@@ -143,3 +143,22 @@ We will use Google Composer with Airflow to create a DAG for writing and managin
  ![image](https://github.com/mphothanachai/Workshop-data-engineer-/assets/137395742/4ccbd050-abd5-48d6-a1bd-396b2c8c0bf8)
 
   3. Wait for 15-30 minutes to create the `environment`. ( When you create a Composer environment, you will also get Google Cloud (data lake) included, so you don't need to create an extra one. )
+ 4. But in this case, I want to use another cloud to store all the data that is generated during the process.
+ 5. Let create **google cloud => buckets => create => region**  create the same region as the one where Composer is created.
+ 
+ ![image](https://github.com/mphothanachai/Workshop-data-engineer/assets/137395742/45e371f0-a402-4ae4-bb0a-a943aa4a1b77)
+ 
+6. Go into Composer airflow and search for `PyPI packages` to install for all tasks. In this case installs`pandas`
+
+![image](https://github.com/mphothanachai/Workshop-data-engineer/assets/137395742/60e28075-bd52-443b-a390-b11c47607f3f)
+
+ 7. Click on the`Airflow webserver` , then click on `Admin`, and finally select `Connections`.
+ ![image](https://github.com/mphothanachai/Workshop-data-engineer-/assets/137395742/e62c72e0-5ee6-48cb-8f5d-da9fe683aff0)
+
+8. Find mysql_default and set connection (credential)
+
+![image](https://github.com/mphothanachai/Workshop-data-engineer/assets/137395742/16655eae-d679-4c55-bf1a-9aa5adddea6e)
+
+9. Click on the `Cloud Shell` on the right side => Editor to create dag.py for the task execution.![image](https://github.com/mphothanachai/Workshop-data-engineer-/assets/137395742/20987a1e-22a6-4b93-8c5a-c0c27b823e2f) 
+ Create python file![image](https://github.com/mphothanachai/Workshop-data-engineer-/assets/137395742/5986b852-606d-4337-905e-009b04b0545b)
+10. Begin the Python file by  `import`  modules that used in this task.
