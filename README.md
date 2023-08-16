@@ -162,3 +162,76 @@ We will use Google Composer with Airflow to create a DAG for writing and managin
 9. Click on the `Cloud Shell` on the right side => Editor to create dag.py for the task execution.![image](https://github.com/mphothanachai/Workshop-data-engineer-/assets/137395742/20987a1e-22a6-4b93-8c5a-c0c27b823e2f) 
  Create python file![image](https://github.com/mphothanachai/Workshop-data-engineer-/assets/137395742/5986b852-606d-4337-905e-009b04b0545b)
 10. Begin the Python file by  `import`  modules that used in this task.
+```
+from airflow import DAG
+from airflow.hooks.postgres_hook import PostgresHook
+from airflow.operators.python_operator import PythonOperator
+from airflow.operators.bash_operator import BashOperator
+from airflow.utils.dates import days_ago
+import pandas as pd
+from datetime import datetime, timedelta
+```
+11. Set the  `variables`  used in this project.
+```
+#path and {{ ds }} = date today
+raw_output_path = "gs://datalakelake/raw_data/raw_data_{{ ds }}.csv"
+clean_output_path = "gs://datalakelake/clean_data/clean_data_{{ ds }}.csv"
+```
+12. Begin by building the first function use `pandas` to query data from `PostgreSQL`  tables and `convert`  the data into a CSV file from path
+```
+def  extract_DB(raw_path):
+postgres = PostgresHook(postgres_conn_id='postgres_default')
+df = postgres.get_pandas_df(sql="SELECT * FROM userbase")
+df.to_csv(raw_path, index=False)
+```
+13. The next step is a bit lengthy, so I'll explain it in more detail through the following commands.
+```
+def  clean_data(raw_path, clean_path):
+	df = pd.read_csv(raw_path)
+	df['Join_Date'] = pd.to_datetime(df['Join_Date'])
+	df['Last_Payment_Date'] = pd.to_datetime(df['Last_Payment_Date'])
+	
+	df['Subscription_period'] = (df['Last_Payment_Date'].dt.year - df['Join_Date'].dt.year) * 12 + \
+	df['Last_Payment_Date'].dt.month - df['Join_Date'].dt.month
+	df = df.rename(columns={'Subscription_period': 'Subscription_period_(Month)'})
+	
+	df["Plan_Duration"] = df["Plan_Duration"].apply(lambda  x: x.replace(" Month", "")).astype(int)
+	
+	df = df.rename(columns={'Plan_Duration': 'Plan_Duration_(Month)'})
+	
+	df['THB_Bath'] = df['Subscription_Type'].map({'Basic': 169, 'Standard': 349, 'Premium': 419})
+	
+	df["Revenue(Bath)"] = df["Plan_Duration_(Month)"] * df["Subscription_period_(Month)"] * df["THB_Bath"]
+	df.to_csv(clean_path, index=False)
+```
+**Begin with  this command use pandas read csv and  use the DataFrame `df` to convert the selected column into a datetime format.**
+```
+df = pd.read_csv(raw_path)
+df['Join_Date'] = pd.to_datetime(df['Join_Date'])
+df['Last_Payment_Date'] = pd.to_datetime(df['Last_Payment_Date'])
+```
+**In this command, it calculates the number of months that a customer has subscribed after converting the datetime. In the previous command, it uses `.year` to extract the year from a column and then subtracts it from another column, e.g., 2023 (latest subscription year) - 2022 (starting year), resulting in 1 year. Then, by multiplying it by 12, you get the number of months. Similarly, `.month` is used in the same way.**
+```
+df['Subscription_period'] = (df['Last_Payment_Date'].dt.year - df['Join_Date'].dt.year) * 12 + \
+df['Last_Payment_Date'].dt.month - df['Join_Date'].dt.month
+
+df = df.rename(columns={'Subscription_period': 'Subscription_period_(Month)'})
+```
+**In this function use lamda to change "Month" it is string in this column and change type to int.**
+```
+df["Plan_Duration"] = df["Plan_Duration"].apply(lambda  x: x.replace(" Month", "")).astype(int)
+df = df.rename(columns={'Plan_Duration': 'Plan_Duration_(Month)'})
+```
+**Use function map to find str in dict{} and change after that multiply all column ,that is an integer.Convert to csv **
+```
+df['THB_Bath'] = df['Subscription_Type'].map({'Basic': 169, 'Standard': 349, 'Premium': 419})
+df["Revenue(Bath)"] = df["Plan_Duration_(Month)"] * df["Subscription_period_(Month)"] * df["THB_Bath"]
+df.to_csv(clean_path, index=False)
+```
+14. Create Default Arguments to define the **DAG's** workflow as follows
+```
+with DAG(
+	"dag",
+	schedule_interval=" 0 0 * * * ", #work on midnight(with cron)
+	tags=["project"]
+) as dag:
