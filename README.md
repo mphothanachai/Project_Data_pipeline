@@ -97,7 +97,7 @@ You don't need to use command to create tables and insert row by row (In some ca
 
 ![image](https://github.com/mphothanachai/Workshop-data-engineer-/assets/137395742/9aa572c6-fd3f-429d-9d58-66027c81c077)
 
-5.  **_Aah!_** I have some problem .I got error of different "datestyle"
+5.  **_Aah!_** I think it not easy at all .I have some problem .I got error of different "datestyle"
 
 ![image](https://github.com/mphothanachai/Workshop-data-engineer-/assets/137395742/50152751-ed92-4e84-9e36-c370f57dd740)
 
