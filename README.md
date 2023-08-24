@@ -155,7 +155,7 @@ We will use Google Composer with Airflow to create a DAG for writing and managin
  7. Click on the`Airflow webserver` , then click on `Admin`, and finally select `Connections`.
  ![image](https://github.com/mphothanachai/Workshop-data-engineer-/assets/137395742/e62c72e0-5ee6-48cb-8f5d-da9fe683aff0)
 
-8. Find mysql_default and set connection (credential)
+8. Find postgresql_default and set connection (credential)
 
 ![image](https://github.com/mphothanachai/Workshop-data-engineer/assets/137395742/16655eae-d679-4c55-bf1a-9aa5adddea6e)
 
